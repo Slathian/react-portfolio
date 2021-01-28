@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function(props) {
+export default function (props) {
     return (
         <div>
             <h2>Portfolio Details for {props.match.params.slug}</h2>

@@ -12,28 +12,28 @@ import PortfolioDetail from './portfolio/portfolio-detail'
 import NoMatch from './pages/no-match'
 
 export default class App extends Component {
-  render() {
+    render() {
 
-    return (
-      <div className='app'>
-        <Router>
-          <div>
-          <h1>Joshua Hunters Portfolio</h1>
-          <div>{moment().format('MMMM Do YYYY, h:mm:ss a')}</div>
-            < NavigationContainer />
+        return (
+            <div className='app'>
+                <Router>
+                    <div>
+                        <h1>Joshua Hunters Portfolio</h1>
+                        <div>{moment().format('MMMM Do YYYY, h:mm:ss a')}</div>
+                        < NavigationContainer />
 
-            <Switch>
-              <Route exact path='/' component={Home} />
-              <Route path='/About-me' component={About} />
-              <Route path='/contact-me' component={Contact} />
-              <Route path='/blog' component={Blog} />
-              <Route exact path='/portfolio/:slug' component={PortfolioDetail} />
-              <Route component={NoMatch} />
-            </Switch>
+                        <Switch>
+                            <Route exact path='/' component={Home} />
+                            <Route path='/About-me' component={About} />
+                            <Route path='/contact-me' component={Contact} />
+                            <Route path='/blog' component={Blog} />
+                            <Route exact path='/portfolio/:slug' component={PortfolioDetail} />
+                            <Route component={NoMatch} />
+                        </Switch>
 
-          </div>
-        </Router>
-      </div>
-    );
-  }
+                    </div>
+                </Router>
+            </div>
+        );
+    }
 }
