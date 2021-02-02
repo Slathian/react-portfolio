@@ -5,8 +5,10 @@
     "\\src\\components",
     "\\src\\components\\navigation",
     "\\src\\components\\pages",
-    "\\src\\components\\portfolio"
+    "\\src\\components\\portfolio",
+    "\\src\\style",
+    "\\static"
   ],
-  "SelectedNode": "\\src\\components\\app.js",
+  "SelectedNode": "\\src\\components\\navigation\\navigationContainer.js",
   "PreviewInSolutionExplorer": false
 }
