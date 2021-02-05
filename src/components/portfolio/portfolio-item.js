@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom'
 
 export default function (props) {
@@ -9,10 +9,25 @@ export default function (props) {
     // - description: description
     // - id: id
     const { id, description, thumb_image_url, logo_url } = props.item;
+
+    const [itemClass, changeItemClass] = useState("");
+
+    function handleMouseEnter() {
+        changeItemClass("image-blur")
+    };
+
+    function handleMouseLeave() {
+        changeItemClass("")
+    };
+
+        
     return (
-        <div className="portfolio-item-wrapper">
+        <div className="portfolio-item-wrapper"
+            onMouseEnter={() => { handleMouseEnter() }}
+            onMouseLeave={() => { handleMouseLeave() }}
+        >
             <div
-                className="portfolio-img-bg"
+                className={"portfolio-img-bg " + itemClass}
                 style={{
                     backgroundImage: `url("${thumb_image_url}")`
                 }}
