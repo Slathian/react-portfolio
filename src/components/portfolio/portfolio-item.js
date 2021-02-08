@@ -12,11 +12,11 @@ export default function (props) {
 
     const [itemClass, changeItemClass] = useState("");
 
-    function handleMouseEnter() {
+    const handleMouseEnter = () => {
         changeItemClass("image-blur")
     };
 
-    function handleMouseLeave() {
+    const handleMouseLeave = () => {
         changeItemClass("")
     };
 
