@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { sha256, sha224 } from 'js-sha256';
 import axios from 'axios';
@@ -10,7 +10,7 @@ export default function(props) {
 
     const [errorText, updateError] = useState("")
 
-    const onSubmit = data => {
+    const onSubmit =  data => {
         // data.password = sha256(data.password); --------> If I built the backend myself or this was not a class session, this line of code would be implemented so that we wouldn't store our users data. the first time we do this is if we were building out a registration application!
         console.log(data);
         axios.post("https://api.devcamp.space/sessions",
@@ -27,15 +27,20 @@ export default function(props) {
             console.log("response", response)
             
             if (response.data.status === 'created') {
-                console.log(`%cWelcome in Josh`, "color: goldenrod; font-size: 3rem; background-color: black;")
+                console.log(`Welcome in Josh`)
+                props.handleSuccessfulAuth();
             } else {
                 updateError("Wrong email or password")
+                props.handleUnsuccessfulAuth();
+                // console.log(props);
                 resetValue()
             }
         })
         .catch(error => {
             console.log(`%cSome Error Occurred %c${error}`, "color: green; font-size: 1.5rem; font-weight: bold", "color: Red; font-size: 1.2rem; ");
             updateError("An error occured");
+            props.handleUnsuccessfulAuth();
+            // console.log(props);
             resetValue()
         })
 
