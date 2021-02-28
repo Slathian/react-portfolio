@@ -1,8 +1,19 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom'
 
-export default class NavigationComponent extends Component {
-    render() {
+    const NavigationComponent = (props) => {
+
+        const dynamicLink = (route, linkText) => {
+            return (
+            <div className="nav-link-wrapper">
+                <NavLink to="/blog" activeClassName="nav-link-active">
+                    Blog
+                </NavLink>
+            </div>
+        );    
+    };
+
+        console.log("Status:" + props.loggedInStatus)
         return (
             <div className="nav-wrapper">
                 <div className="left-side-wrapper">
@@ -24,15 +35,9 @@ export default class NavigationComponent extends Component {
                         </NavLink>
                     </div>
 
-                    <div className="nav-link-wrapper">
-                        <NavLink to="/blog" activeClassName="nav-link-active">
-                            Blog
-                        </NavLink>
-                    </div>
+                    {props.loggedInStatus === "LOGGED_IN" ? dynamicLink("/blog", "Blog") : null}
 
-                    <div className="nav-link-wrapper">
-                        {false ? <button>Add Blog</button> : null}
-                    </div>
+                    
                 </div>
                 <div>
                     JOSHUA HUNTER
@@ -40,4 +45,5 @@ export default class NavigationComponent extends Component {
             </div>
         );
     }
-}
+
+    export default NavigationComponent

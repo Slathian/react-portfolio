@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import Axios from 'axios'
 
 import "../style/main.scss"
 
@@ -38,15 +39,47 @@ export default class App extends Component {
         })
     }
 
+    checkLoginStatus() {
+        return Axios.get("https://api.devcamp.space/logged_in", { withCredentials: true
+        }).then(response => {
+            console.log(response);
+            const loggedIn = response.data.logged_in;
+            const loggedInStatus = this.state.loggedInStatus;
+
+            if (loggedIn && loggedInStatus === "LOGGED_IN") {
+                return loggedIn;
+            } else if (loggedIn && loggedInStatus === "NOT_LOGGED_IN") {
+                this.setState({
+                    loggedInStatus: "LOGGED_IN"
+                });
+            }
+        })
+        .catch(error => {
+            console.log("Error", error)
+            })
+    }
+
+    componentDidMount() {
+        this.checkLoginStatus();
+    }
+
+    authoroizedPages() {
+        return [
+            <Route path='/blog' component={Blog} key="12345" />
+        ]
+    }
 
     render() {
         return (
             <div className='container'>
                 <Router>
                     <div>
-                        < NavigationContainer />
+                        < NavigationContainer
+                        // loggedInStatus={this.state.loggedInStatus}
+                        
+                        />
 
-                        {/* <h2>{this.state.loggedInStatus}</h2> */}
+                        <h2>{this.state.loggedInStatus}</h2>
 
                         <Switch>
                             <Route exact path='/' component={Home} />
@@ -64,7 +97,7 @@ export default class App extends Component {
                             />
                             <Route path='/About-me' component={About} />
                             <Route path='/contact-me' component={Contact} />
-                            <Route path='/blog' component={Blog} />
+                            {this.state.loggedInStatus === "LOGGED_IN" ? this.authoroizedPages() : null}
                             <Route exact path='/portfolio/:slug' component={PortfolioDetail} />
                             <Route component={NoMatch} />
                         </Switch>
