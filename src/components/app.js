@@ -13,6 +13,8 @@ import Blog from './pages/blog'
 import PortfolioDetail from './portfolio/portfolio-detail'
 import Auth from "./pages/auth"
 import NoMatch from './pages/no-match'
+import PortfolioManager from './pages/portfolio-manager';
+
 
 export default class App extends Component {
     constructor(props) {
@@ -24,6 +26,7 @@ export default class App extends Component {
 
         this.handleSuccessfulLogin = this.handleSuccessfulLogin.bind(this);
         this.handleUnsuccessfulLogin = this.handleUnsuccessfulLogin.bind(this);
+        this.handleSuccessfulLogout = this.handleSuccessfulLogout.bind(this);
 
     }
 
@@ -34,6 +37,12 @@ export default class App extends Component {
     }
 
     handleUnsuccessfulLogin() {
+        this.setState({
+            loggedInStatus: "NOT_LOGGED_IN"
+        })
+    }
+
+    handleSuccessfulLogout() {
         this.setState({
             loggedInStatus: "NOT_LOGGED_IN"
         })
@@ -65,7 +74,7 @@ export default class App extends Component {
 
     authoroizedPages() {
         return [
-            <Route path='/blog' component={Blog} key="12345" />
+            <Route path='/portfolio-manager' component={PortfolioManager}  key="12345" />
         ]
     }
 
@@ -75,11 +84,10 @@ export default class App extends Component {
                 <Router>
                     <div>
                         < NavigationContainer
-                        // loggedInStatus={this.state.loggedInStatus}
+                        loggedInStatus={this.state.loggedInStatus}
+                        handleSuccessfulLogout={this.handleSuccessfulLogout}
                         
                         />
-
-                        <h2>{this.state.loggedInStatus}</h2>
 
                         <Switch>
                             <Route exact path='/' component={Home} />
@@ -95,7 +103,8 @@ export default class App extends Component {
                             
                             
                             />
-                            <Route path='/About-me' component={About} />
+                            <Route path='/blog' component={Blog}/>
+                            <Route path='/about-me' component={About} />
                             <Route path='/contact-me' component={Contact} />
                             {this.state.loggedInStatus === "LOGGED_IN" ? this.authoroizedPages() : null}
                             <Route exact path='/portfolio/:slug' component={PortfolioDetail} />
