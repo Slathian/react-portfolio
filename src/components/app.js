@@ -51,7 +51,6 @@ export default class App extends Component {
     checkLoginStatus() {
         return Axios.get("https://api.devcamp.space/logged_in", { withCredentials: true
         }).then(response => {
-            console.log(response);
             const loggedIn = response.data.logged_in;
             const loggedInStatus = this.state.loggedInStatus;
 

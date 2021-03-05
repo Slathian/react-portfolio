@@ -12,7 +12,7 @@ export default function(props) {
 
     const onSubmit =  data => {
         // data.password = sha256(data.password); --------> If I built the backend myself or this was not a class session, this line of code would be implemented so that we wouldn't store our users data. the first time we do this is if we were building out a registration application!
-        console.log(data);
+        // console.log(data);
         axios.post("https://api.devcamp.space/sessions",
         {
             client: {
@@ -24,7 +24,7 @@ export default function(props) {
         )
         .then(response =>{
 
-            console.log("response", response)
+            // console.log("response", response)
             
             if (response.data.status === 'created') {
                 console.log(`Welcome in Josh`)
