@@ -1,6 +1,7 @@
 .portfolio-manager-wrapper {
     display: grid;
     grid-template-columns: 3fr 1fr;
+    color: $offwhite;
   
     .left-column {
       background-color: $offwhite;
@@ -8,5 +9,25 @@
   
     .right-column {
       background-color: $charcoal;
+      overflow-y: scroll;
+
+      .portfolio-items-wrapper {
+        display: grid;
+        grid-template-columns: 1fr;
+
+        .portfolio-item {
+          display: flex;
+          justify-content: center;
+          flex-direction: column;
+
+          img {
+            width: 100%;
+          }
+
+          h1, h2 {
+            padding-left: 20px;
+          }
+        }
+      }
     }
   }

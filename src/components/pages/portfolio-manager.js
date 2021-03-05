@@ -1,31 +1,31 @@
-import React, { useState, useEffect }from 'react';
+import React, { useState, useEffect, Suspense }from 'react';
 import axios from 'axios'
+
+import PortfolioSidebarList from '../portfolio/portfolio-sidebar-list';
 
 export default function PortfolioManager() {
 
-    const [portfolioItems, changePortfolioItems] = useState("");
+    const [portfolio, setPortfolio] = useState([]);
+    const [loaded, changeLoad] = useState(false);
 
-    const getPortfolioItems = () => {
-        axios
-        .get("https://joshuaangelo.devcamp.space/portfolio/portfolio_items", {withCredentials: true})
-        .then(response => {
-            const apiCallData = response.data.portfolio_items
-            console.log(apiCallData)
-            changePortfolioItems([{this: "testing data"}])
-            console.log("state section: ", portfolioItems)
-        }).catch(err => {
-            console.log("error in response", err)
-        });
-    };
+    useEffect( () =>{
+        async function fetchData() {
+            await axios
+            .get("https://joshuaangelo.devcamp.space/portfolio/portfolio_items", {withCredentials: true})
+            .then(response => {
+                setPortfolio({portfolioItems: [...response.data.portfolio_items]})
+                changeLoad(true);
+            })
+            .catch(error => {
+                console.log("axios data collection error: ", error);
+            });
+        };
 
-    handleData = () => {
+        fetchData()
         
-    }
+    }, []);
 
-    useEffect( () => {
-        getPortfolioItems()
-        console.log(portfolioItems)
-    }, [])
+    
 
     return (
         <div>
@@ -39,10 +39,9 @@ export default function PortfolioManager() {
                 </div>
 
                 <div className="right-column">
-                    <h1>Portfolio sidebar....</h1>
-                    
+                    <PortfolioSidebarList apiData={portfolio} isLoaded={loaded}/>
                 </div>
             </div>
         </div>
     )
-}
+};
