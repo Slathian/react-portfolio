@@ -73,6 +73,7 @@ export default function(props) {
                 type="email"
                 onChange ={resetError}
                 />
+                
                 <input 
                 ref={register}
                 name="password"
