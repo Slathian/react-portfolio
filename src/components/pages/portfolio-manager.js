@@ -1,7 +1,8 @@
-import React, { useState, useEffect, Suspense }from 'react';
+import React, { useState, useEffect }from 'react';
 import axios from 'axios'
 
 import PortfolioSidebarList from '../portfolio/portfolio-sidebar-list';
+import PortfolioForm from '../portfolio/portfolio-form';
 
 export default function PortfolioManager() {
 
@@ -25,17 +26,25 @@ export default function PortfolioManager() {
         
     }, []);
 
+    const handleSuccessfulFormSubmission = (portfolio) => {
+        //TODO
+        //update portfolio state
+        //add the portfolio item to the list
+    }
+
+    const handleFormSubmissionError = (error) => {
+        console.log("Handle form submission error:", error)
+    } 
     
 
     return (
         <div>
             <div className="portfolio-manager-wrapper">
                 <div className="left-column">
-                    <form>
-                        <input>
-                        </input>
-                        
-                    </form>
+                        <PortfolioForm 
+                        handleSuccessfulFormSubmission={handleSuccessfulFormSubmission} 
+                        handleFormSubmissionError={handleFormSubmissionError}
+                        /> 
                 </div>
 
                 <div className="right-column">

@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import Login from '../auth/login';
+import React from 'react';
 import AltLogin from '../auth/RHFLogin';
 
 import loginImg from '../../../static/assets/images/auth/login.jpg';

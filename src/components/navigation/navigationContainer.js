@@ -27,7 +27,7 @@ import axios from 'axios';
         })
     }
 
-        console.log("Status:" + props.loggedInStatus)
+        // console.log("Status:" + props.loggedInStatus)
         return (
             <div className="nav-wrapper">
                 <div className="left-side-wrapper">
