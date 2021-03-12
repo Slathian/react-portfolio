@@ -1,14 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import axios from 'axios'
+import axios from 'axios';
 
+import Uploader from './image-uploader';
+
+
+import "../../../node_modules/react-dropzone-component/styles/filepicker.css";
+import "../../../node_modules/dropzone/dist/min/dropzone.min.css";
 
 export default function PortfolioForm () {
 
     const {register, handleSubmit } = useForm();
 
-    const [apiError, resetError] = useState("");
+    const [isLoading, changeLoad] = useState(true)
+    const [componentConfig, updateComponentConfig] = useState(null);
+    const [djsConfig, updateDsjConfig] = useState(null)
+
     // use this to update error calls
+
+    useEffect(() => {
+        updateDsjConfig({
+            addRemoveLinks: true,
+            maxFiles: 1
+        })
+
+        updateComponentConfig ({
+            iconFiletypes: [".jpg", ".png"],
+            showFiletypeIcon: true,
+            postURL: "https://httpbin.org/post"
+        })
+
+
+    }, [])
 
     function onSubmit(data) {
         axios.post("https://joshuaangelo.devcamp.space/portfolio/portfolio_items",
@@ -21,7 +44,6 @@ export default function PortfolioForm () {
                 console.log("Portfolio Submit error", error);
             });
     }
-
 
 
     return (
@@ -53,11 +75,12 @@ export default function PortfolioForm () {
 
                     <select 
                     ref={register}
-                    name={"selection"}
+                    name={"category"}
+                    mode="onChange"
                     >
-                        <option>Blogs</option>
-                        <option>Enterprises</option>
-                        <option>Projects</option>
+                        <option value="Blog">Blogs</option>
+                        <option value="Enterprise">Enterprises</option>
+                        <option value="Project">Projects</option>
                     </select>
 
                 </div>
@@ -71,23 +94,8 @@ export default function PortfolioForm () {
                 />
                 </div>
 
-                {/* <div>
-                    <input 
-                    ref={register}
-                    type={"file"}
-                    name={"image 1"}
-                    />
-                    <input 
-                    ref={register}
-                    type={"file"}
-                    name={"image 2"}
-                    />
-                    <input 
-                    ref={register}
-                    type={"file"}
-                    name={"image 3"}
-                    />
-                </div> */}
+                {isLoading === true ? null : <Uploader componentConfig={componentConfig} djsConfig={djsConfig}/>}
+                
 
                 <div>
                     <button type="submit">Save</button>
