@@ -2,36 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
-import Uploader from './image-uploader';
-
-
-import "../../../node_modules/react-dropzone-component/styles/filepicker.css";
-import "../../../node_modules/dropzone/dist/min/dropzone.min.css";
+import Drop from './drop-hook';
 
 export default function PortfolioForm () {
 
     const {register, handleSubmit } = useForm();
 
     const [isLoading, changeLoad] = useState(true)
-    const [componentConfig, updateComponentConfig] = useState(null);
-    const [djsConfig, updateDsjConfig] = useState(null)
-
-    // use this to update error calls
-
-    useEffect(() => {
-        updateDsjConfig({
-            addRemoveLinks: true,
-            maxFiles: 1
-        })
-
-        updateComponentConfig ({
-            iconFiletypes: [".jpg", ".png"],
-            showFiletypeIcon: true,
-            postURL: "https://httpbin.org/post"
-        })
-
-
-    }, [])
+    
 
     function onSubmit(data) {
         axios.post("https://joshuaangelo.devcamp.space/portfolio/portfolio_items",
@@ -44,6 +22,8 @@ export default function PortfolioForm () {
                 console.log("Portfolio Submit error", error);
             });
     }
+
+
 
 
     return (
@@ -93,9 +73,11 @@ export default function PortfolioForm () {
                 type="text"
                 />
                 </div>
-
-                {isLoading === true ? null : <Uploader componentConfig={componentConfig} djsConfig={djsConfig}/>}
-                
+                <div className="dropper-wrapper">
+                    <Drop name={"Thumbnail"} accept="image/*,audio/*,video/*"/>
+                    <Drop name={"Banner"}/>
+                    <Drop name={"Logo"}/>
+                </div>
 
                 <div>
                     <button type="submit">Save</button>
