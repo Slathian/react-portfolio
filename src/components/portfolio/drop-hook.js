@@ -8,6 +8,7 @@ export default function Basic(props) {
   const {acceptedFiles, getRootProps, getInputProps, isDragActive} = useDropzone({
     accept: "image/*",
     onDrop: (acceptedFiles) => {
+      props.dataCollection(acceptedFiles);
       setBool(true);
       setImage(
         acceptedFiles.map((upFile) => Object.assign(upFile,{

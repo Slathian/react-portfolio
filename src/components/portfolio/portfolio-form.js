@@ -23,6 +23,10 @@ export default function PortfolioForm () {
             });
     }
 
+    const getImageData = (data) => {
+        console.log("Data ported back from child component",data)
+    }
+
 
 
 
@@ -74,9 +78,9 @@ export default function PortfolioForm () {
                 />
                 </div>
                 <div className="dropper-wrapper">
-                    <Drop name={"Thumbnail"} accept="image/*,audio/*,video/*"/>
-                    <Drop name={"Banner"}/>
-                    <Drop name={"Logo"}/>
+                    <Drop name={"Thumbnail"} dataCollection={getImageData}/>
+                    <Drop name={"Banner"} dataCollection={getImageData}/>
+                    <Drop name={"Logo"} dataCollection={getImageData}/>
                 </div>
 
                 <div>
