@@ -3,12 +3,15 @@ import {useDropzone} from 'react-dropzone';
 
 export default function Basic(props) {
 
+  const { onChange } = props;
   const [uploadedImage, setImage] = useState([]);
   const [imageDropped, setBool] = useState(false);
-  const {acceptedFiles, getRootProps, getInputProps, isDragActive} = useDropzone({
+  const {acceptedFiles, getRootProps, getInputProps} = useDropzone({
     accept: "image/*",
     onDrop: (acceptedFiles) => {
-      props.dataCollection(acceptedFiles);
+      const _name = props.keyName
+      const obj = {[_name]: acceptedFiles}
+      props.change(obj)
       setBool(true);
       setImage(
         acceptedFiles.map((upFile) => Object.assign(upFile,{
@@ -29,7 +32,7 @@ export default function Basic(props) {
   return (
       <section className="drop-container">
         <div {...getRootProps({className: 'dropzone'})}>
-          <input {...getInputProps()} />
+          <input {...getInputProps({ onChange })} />
           
           {imageDropped ? null : <p>Drop {props.name} or select</p>}
 
