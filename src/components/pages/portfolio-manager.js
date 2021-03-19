@@ -3,6 +3,7 @@ import axios from 'axios'
 
 import PortfolioSidebarList from '../portfolio/portfolio-sidebar-list';
 import PortfolioForm from '../portfolio/portfolio-form';
+import CopyPortfolioForm from '../portfolio/Jordans-Form-Copy';
 
 export default function PortfolioManager() {
 
@@ -26,10 +27,11 @@ export default function PortfolioManager() {
         
     }, []);
 
-    const handleSuccessfulFormSubmission = (portfolio) => {
-        //TODO
-        //update portfolio state
-        //add the portfolio item to the list
+    const handleSuccessfulFormSubmission = (portfolioData) => {
+        setPortfolio({
+            portfolioItems: [portfolioData].concat(portfolio)
+        })
+        console.log("After the trigger" ,portfolio)
     }
 
     const handleFormSubmissionError = (error) => {
@@ -41,7 +43,8 @@ export default function PortfolioManager() {
         <div>
             <div className="portfolio-manager-wrapper">
                 <div className="left-column">
-                        <PortfolioForm 
+                        {/* <PortfolioForm  */}
+                        <CopyPortfolioForm
                         handleSuccessfulFormSubmission={handleSuccessfulFormSubmission} 
                         handleFormSubmissionError={handleFormSubmissionError}
                         /> 
