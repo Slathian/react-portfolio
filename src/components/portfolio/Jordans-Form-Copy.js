@@ -130,10 +130,7 @@ export default class CopyPortfolioForm extends Component {
 
   render() {
     return (
-      <div>
-        <h1>PortfolioForm</h1>
-
-        <form onSubmit={this.handleSubmit}>
+        <form className="portfolio-form-wrapper" onSubmit={this.handleSubmit}>
           <div>
             <input
               type="text"
@@ -209,7 +206,5 @@ export default class CopyPortfolioForm extends Component {
             <button type="submit">Save</button>
           </div>
         </form>
-      </div>
-    );
-  }
+    )}
 }

@@ -25,11 +25,12 @@ export default function PortfolioManager() {
 
         fetchData()
         
-    }, []);
+    });
 
     const handleSuccessfulFormSubmission = (portfolioData) => {
+        changeLoad(false);
         setPortfolio({
-            portfolioItems: [portfolioData].concat(portfolio)
+            portfolioItems: [portfolio].concat(portfolioData)
         })
         console.log("After the trigger" ,portfolio)
     }
@@ -51,7 +52,7 @@ export default function PortfolioManager() {
                 </div>
 
                 <div className="right-column">
-                    <PortfolioSidebarList apiData={portfolio} isLoaded={loaded}/>
+                    <PortfolioSidebarList apiData={portfolio} isLoaded={loaded} key={"side-bar-list"}/>
                 </div>
             </div>
         </div>
