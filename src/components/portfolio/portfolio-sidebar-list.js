@@ -1,3 +1,4 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 
 
@@ -13,6 +14,9 @@ const PortfolioSidebarList = props => {
                     <h2>ID: {item.id}</h2>
                     <h2>URL: {item.url}</h2>
                     <h2>Description: {item.description}</h2>
+                    <a onClick={() => props.handleDeleteClick(item)}>
+                        <FontAwesomeIcon icon="trash" />
+                    </a>
                     
                 </div>
                 )

@@ -63,9 +63,9 @@ export default function PortfolioForm () {
     }
 
     return (
-        <div>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div>
+        
+            <form onSubmit={handleSubmit(onSubmit)} className="portfolio-form-wrapper">
+                <div className="two-column">
                     <input 
                     ref={register}
                     name={"name"}
@@ -81,7 +81,7 @@ export default function PortfolioForm () {
                     />
                 </div>
 
-                <div>
+                <div className="two-column">
                     <input 
                     ref={register}
                     name={"position"}
@@ -101,7 +101,7 @@ export default function PortfolioForm () {
 
                 </div>
                 
-                <div>
+                <div className="one-column">
                 <textarea 
                 ref={register}
                 name={"description"}
@@ -151,6 +151,6 @@ export default function PortfolioForm () {
                 </div>
 
             </form>
-        </div>
+        
     )
 };

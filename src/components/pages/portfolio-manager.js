@@ -2,8 +2,8 @@ import React, { useState, useEffect }from 'react';
 import axios from 'axios'
 
 import PortfolioSidebarList from '../portfolio/portfolio-sidebar-list';
-import PortfolioForm from '../portfolio/portfolio-form';
-import CopyPortfolioForm from '../portfolio/Jordans-Form-Copy';
+// import PortfolioForm from '../portfolio/portfolio-form';
+import CopyPortfolioForm from '../portfolio/form-follow-along';
 
 export default function PortfolioManager() {
 
@@ -38,6 +38,17 @@ export default function PortfolioManager() {
     const handleFormSubmissionError = (error) => {
         console.log("Handle form submission error:", error)
     } 
+
+    const handleDeleteClick = (item) => {
+        console.log(item);
+        axios
+        .delete(`https://api.devcamp.space/portfolio/portfolio_items/${item.id}`, {withCredentials: true}
+        ).then(response => {
+            console.log("response from delete:", response)
+        }).catch(error => {
+            console.log("delete error:", error)
+        })
+    }
     
 
     return (
@@ -52,7 +63,11 @@ export default function PortfolioManager() {
                 </div>
 
                 <div className="right-column">
-                    <PortfolioSidebarList apiData={portfolio} isLoaded={loaded} key={"side-bar-list"}/>
+                    <PortfolioSidebarList 
+                    apiData={portfolio} 
+                    isLoaded={loaded} 
+                    handleDeleteClick={handleDeleteClick}
+                    key={"side-bar-list"}/>
                 </div>
             </div>
         </div>
