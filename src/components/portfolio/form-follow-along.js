@@ -33,6 +33,12 @@ export default class CopyPortfolioForm extends Component {
     this.logoRef = React.createRef();
   }
 
+  componentDidUpdate () {
+    if (this.props.portfolioToEdit !== this.props.portfolioToEdit) {
+      console.log("props changed: ", this.props.portfolioToEdit)
+    }
+  }
+
   handleThumbDrop() {
     return {
       addedfile: file => this.setState({ thumb_image: file })

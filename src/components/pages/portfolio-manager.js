@@ -9,6 +9,7 @@ export default function PortfolioManager() {
 
     const [portfolio, setPortfolio] = useState([]);
     const [loaded, changeLoad] = useState(false);
+    const [portfolioEdit, setPortfolioEdit] = useState({portfolioToEdit: {}})
 
     useEffect( () =>{
         async function fetchData() {
@@ -22,8 +23,9 @@ export default function PortfolioManager() {
                 console.log("axios data collection error: ", error);
             });
         };
-
         fetchData()
+
+        
         
     });
 
@@ -49,7 +51,37 @@ export default function PortfolioManager() {
             console.log("delete error:", error)
         })
     }
+
+    const handleEditClick = (portfolioItem) => {
+        setPortfolioEdit({
+            portfolioToEdit: portfolioItem
+        })
+
+        console.log(portfolioItem);
+    };
     
+    const clearPortfolioToEdit = () => {
+        setPortfolioEdit({
+            portfolioToEdit: {}
+        })
+    }
+     // componentDidUpdate() {
+  //   if (Object.keys(this.props.portfolioToEdit).length > 0) {
+  //     console.log("TRIGGER ~ data changed: ")
+  //     const {
+  //       id,
+  //       name,
+  //       description,
+  //       catagory,
+  //       position,
+  //       url,
+  //       thumb_image_url,
+  //       banner_image_url,
+  //       logo_url
+  //     } = this.props.portfolioToEdit
+  //   }
+  //   this.props.clearPortfolioToEdit();
+  // }
 
     return (
         <div>
@@ -59,6 +91,8 @@ export default function PortfolioManager() {
                         <CopyPortfolioForm
                         handleSuccessfulFormSubmission={handleSuccessfulFormSubmission} 
                         handleFormSubmissionError={handleFormSubmissionError}
+                        clearPortfolioToEdit={clearPortfolioToEdit}
+                        portfolioToEdit={portfolioEdit}
                         /> 
                 </div>
 
@@ -67,6 +101,7 @@ export default function PortfolioManager() {
                     apiData={portfolio} 
                     isLoaded={loaded} 
                     handleDeleteClick={handleDeleteClick}
+                    handleEditClick={handleEditClick}
                     key={"side-bar-list"}/>
                 </div>
             </div>
