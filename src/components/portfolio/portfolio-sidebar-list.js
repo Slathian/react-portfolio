@@ -10,13 +10,12 @@ const PortfolioSidebarList = props => {
             return (
                 <div key={item.id} className="portfolio-item">
                     <img src={item.thumb_image_url}/>
-                    <h1>{item.name}</h1>
-                    <h2>ID: {item.id}</h2>
-                    <h2>URL: {item.url}</h2>
-                    <h2>Description: {item.description}</h2>
-                    <a onClick={() => props.handleDeleteClick(item)}>
-                        <FontAwesomeIcon icon="trash" />
-                    </a>
+                    <div className="title-card">
+                        <h1>{item.name}</h1>
+                        <a className="delete-icon" onClick={() => props.handleDeleteClick(item)}>
+                            <FontAwesomeIcon icon="trash" />
+                        </a>
+                    </div>
                     
                 </div>
                 )
@@ -27,8 +26,6 @@ const PortfolioSidebarList = props => {
             </div>  
         )
     }
-
-
 
     return (
         <div>
