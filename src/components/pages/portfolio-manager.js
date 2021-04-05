@@ -10,6 +10,7 @@ export default function PortfolioManager() {
     const [portfolio, setPortfolio] = useState([]);
     const [loaded, changeLoad] = useState(false);
     const [portfolioEdit, setPortfolioEdit] = useState({portfolioToEdit: {}})
+    const [triggerSwitch, changeTriggerSwitch] = useState(false)
 
     useEffect( () =>{
         async function fetchData() {
@@ -23,10 +24,20 @@ export default function PortfolioManager() {
                 console.log("axios data collection error: ", error);
             });
         };
+
+
+        // Call sequence
+        
         fetchData()
 
-        
-        
+        if (triggerSwitch === true) {
+            console.log("TRIGGER STATEMENT ACTIVE");
+
+
+
+            //reset trigger so it works only once in the useEffect calls
+            changeTriggerSwitch(false);
+        }
     });
 
     const handleSuccessfulFormSubmission = (portfolioData) => {
@@ -57,7 +68,8 @@ export default function PortfolioManager() {
             portfolioToEdit: portfolioItem
         })
 
-        console.log(portfolioItem);
+        changeTriggerSwitch(true);
+        console.log(portfolioEdit);
     };
     
     const clearPortfolioToEdit = () => {
@@ -65,23 +77,6 @@ export default function PortfolioManager() {
             portfolioToEdit: {}
         })
     }
-     // componentDidUpdate() {
-  //   if (Object.keys(this.props.portfolioToEdit).length > 0) {
-  //     console.log("TRIGGER ~ data changed: ")
-  //     const {
-  //       id,
-  //       name,
-  //       description,
-  //       catagory,
-  //       position,
-  //       url,
-  //       thumb_image_url,
-  //       banner_image_url,
-  //       logo_url
-  //     } = this.props.portfolioToEdit
-  //   }
-  //   this.props.clearPortfolioToEdit();
-  // }
 
     return (
         <div>
