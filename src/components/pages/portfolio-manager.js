@@ -82,7 +82,12 @@ export default function PortfolioManager() {
         <div>
             <div className="portfolio-manager-wrapper">
                 <div className="left-column">
-                        <PortfolioForm />
+                        <PortfolioForm 
+                        handleSuccessfulFormSubmission={handleSuccessfulFormSubmission} 
+                        handleFormSubmissionError={handleFormSubmissionError}
+                        clearPortfolioToEdit={clearPortfolioToEdit}
+                        portfolioToEdit={portfolioEdit}
+                        />
 
                         {/* <CopyPortfolioForm
                         handleSuccessfulFormSubmission={handleSuccessfulFormSubmission} 

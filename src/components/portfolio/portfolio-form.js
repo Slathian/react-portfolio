@@ -4,59 +4,193 @@ import DropzoneComponent from "react-dropzone-component";
 
 export default function PortfolioForm (props) {
 
-    const [name, setName] = useState("")
-    const [url, setUrl] = useState("")
-    const [position, setPosition] = useState("")
-    const [category, setCatagory] = useState("Blog")
-    const [description, setDescription] = useState("")
+    const [name, setName] = useState({name: ""})
+    const [url, setUrl] = useState({url: ""})
+    const [position, setPosition] = useState({position: ""})
+    const [category, setCatagory] = useState({category: "Blog"})
+    const [description, setDescription] = useState({description: ""})
+    const [thumb_image, changeThumb] = useState({thumb_image_url: []})
+    const [banner_image, changeBanner] = useState({banner_image_url: []})
+    const [logo, changeLogo] = useState({logo_url: []})
+
+    const thumbRef = React.useRef();
+    const bannerRef = React.useRef();
+    const logoRef = React.useRef();
 
     const handleSubmit = event => {
         event.preventDefault();
-        alert(`Submitting Name ${name, url, position, category, description}`)
+        axios
+            .post(
+                "https://joshuaangelo.devcamp.space/portfolio/portfolio_items",
+                buildForm(),
+                { withCredentials: true }
+            )
+            .then(response => {
+                props.handleSuccessfulFormSubmission(response.data.Portfolio_item);
+
+                setName({name: ""});
+                setUrl({url: ""});
+                setPosition({position: ""});
+                setDescription({description: ""});
+                changeThumb({thumb_image_url: []});
+                changeBanner({banner_image_url: []});
+                changeLogo({logo_url: []});
+
+                [thumbRef, bannerRef, logoRef].forEach(ref => {
+                    ref.current.dropzone.removeAllFiles();
+                });
+            })
+            .catch(error => {
+                console.log("Portfolio form handleSubmit error:", error);
+            });
+    }
+
+    const buildForm = () => {
+
+        console.log(name, description, url, category, position)
+
+
+        let formData = new FormData();
+        formData.append("portfolio_item[name]", name);
+        formData.append("portfolio_item[description]", description);
+        formData.append("portfolio_item[url]", url);
+        formData.append("portfolio_item[category]", category);
+        formData.append("portfolio_item[position]", position);
+    
+        if (thumb_image) {
+          formData.append("portfolio_item[thumb_image]", thumb_image);
+        }
+    
+        if (banner_image) {
+          formData.append("portfolio_item[banner_image]", banner_image);
+        }
+    
+        if (logo) {
+          formData.append("portfolio_item[logo]", logo);
+        }
+        
+        console.log(formData);
+        return formData;
+    }
+    
+
+
+
+    const componentConfig = () => {
+        return {
+          iconFiletypes: [".jpg", ".png"],
+          showFiletypeIcon: true,
+          postUrl: "https://httpbin.org/post"
+        };
+    }
+    
+    const djsConfig = () => {
+        return {
+        addRemoveLinks: true,
+        maxFiles: 1
+        };
+    }
+
+    const handleThumbDrop = () => {
+        return {
+            addedfile: file => changeThumb({ thumb_image_url: file })
+        };
+    }
+    
+    const handleBannerDrop = () => {
+        return {
+            addedfile: file => changeBanner({ banner_image_url: file })
+        };
+    }
+    
+    const handleLogoDrop = () => {
+        return {
+            addedfile: file => changeLogo({ logo_url: file })
+        };
     }
     
     return (
         <form onSubmit={handleSubmit} className="portfolio-form-wrapper">
             <div className="two-column">
-                <input 
-                    type="text"
-                    placeholder="Portfolio Item Name"
-                    value={name}
-                    onChange={e => setName(e.target.value)}
-                />
+                <label>
+                    <input 
+                        type="text"
+                        placeholder="Portfolio Item Name"
+                        value={name.name}
+                        onChange={e => setName({name: e.target.value})}
+                    />
+                </label>
 
-                <input 
-                    type="text"
-                    placeholder="URL"
-                    value={url}
-                    onChange={e => setUrl(e.target.value)}
-                />
+                <label>
+                    <input 
+                        type="text"
+                        placeholder="URL"
+                        value={url.url}
+                        onChange={e => setUrl({url: e.target.value})}
+                    />
+                </label>
             </div>
 
             <div className="two-column">
-                <input 
-                    type="text"
-                    placeholder="Position"
-                    value={position}
-                    onChange={e => setPosition(e.target.value)}
-                />
+                <label>
+                    <input 
+                        type="text"
+                        placeholder="Position"
+                        value={position.position}
+                        onChange={e => setPosition({position: e.target.value})}
+                    />
+                </label>
 
-                <select>
+                <select
+                    onChange={e => setCatagory({category: e.target.value})}
+                >
                     <option value="Blog"> Blogs</option>
                     <option value="Enterprise"> Enterprise</option>
                     <option value="Project"> Projects</option>
                 </select>
             </div>
 
-            <div className="one-column">
-                <textarea
-                type="text"
-                placeholder="Description"
-                onChange={e => setDescription(e.target.value)}
-                />
-            </div>
+            <label>
+                <div className="one-column">
+                    <textarea
+                        type="text"
+                        placeholder="Description"
+                        value={description.description}
+                        onChange={e => setDescription({description: e.target.value})}
+                    />
+                </div>
+            </label>
 
-                
+            <label>
+                <div className="image-uploaders">
+                    <DropzoneComponent
+                        ref={thumbRef}
+                        config={componentConfig()}
+                        djsConfig={djsConfig()}
+                        eventHandlers={handleThumbDrop()}
+                    >
+                        <div className="dz-message">Thumbnail</div>
+                    </DropzoneComponent>
+
+                    <DropzoneComponent
+                        ref={bannerRef}
+                        config={componentConfig()}
+                        djsConfig={djsConfig()}
+                        eventHandlers={handleBannerDrop()}
+                    >
+                        <div className="dz-message">Banner</div>
+                    </DropzoneComponent>
+
+                    <DropzoneComponent
+                        ref={logoRef}
+                        config={componentConfig()}
+                        djsConfig={djsConfig()}
+                        eventHandlers={handleLogoDrop()}
+                    >
+                        <div className="dz-message">Logo</div>
+                    </DropzoneComponent>
+                    </div>
+                </label>
                 <div>
                     <button type="submit" value="Submit">Save</button> 
                 </div>
