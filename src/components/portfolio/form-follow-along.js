@@ -33,48 +33,36 @@ export default class PortfolioForm extends Component {
     this.logoRef = React.createRef();
   }
 
-  componentDidUpdate() {
-    // if (Object.keys(this.props.portfolioToEdit).length > 0) {
-    //   const {
-    //     id,
-    //     name,
-    //     description,
-    //     category,
-    //     position,
-    //     url,
-    //     thumb_image_url,
-    //     banner_image_url,
-    //     logo_url
-    //   } = this.props.portfolioToEdit;
+//   componentDidUpdate() {
+//     // if (Object.keys(this.props.portfolioToEdit).length > 0) {
+//     //   const {
+//     //     id,
+//     //     name,
+//     //     description,
+//     //     category,
+//     //     position,
+//     //     url,
+//     //     thumb_image_url,
+//     //     banner_image_url,
+//     //     logo_url
+//     //   } = this.props.portfolioToEdit;
 
-    //   this.props.clearPortfolioToEdit();
+//     //   this.props.clearPortfolioToEdit();
 
-    //   this.setState({
-    //     id: id,
-    //     name: name || "",
-    //     description: description || "",
-    //     category: category || "eCommerce",
-    //     position: position || "",
-    //     url: url || ""
-    //   });
-    // }
+//     //   this.setState({
+//     //     id: id,
+//     //     name: name || "",
+//     //     description: description || "",
+//     //     category: category || "eCommerce",
+//     //     position: position || "",
+//     //     url: url || ""
+//     //   });
+//   // }
 
-    // const {
-    //       id,
-    //       name,
-    //       description,
-    //       category,
-    //       position,
-    //       url,
-    //       thumb_image_url,
-    //       banner_image_url,
-    //       logo_url
-    //     } = this.props.portfolioToEdit;
+//   console.warn("Update called");
+// }
 
-    //     // console.log(id, name, description, category, position, url)
-
-    
-  }
+  
 
   handleThumbDrop() {
     return {
@@ -129,7 +117,8 @@ export default class PortfolioForm extends Component {
     if (this.state.logo) {
       formData.append("portfolio_item[logo]", this.state.logo);
     }
-
+    
+    console.log(formData);
     return formData;
   }
 

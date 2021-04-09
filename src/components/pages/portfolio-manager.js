@@ -2,7 +2,7 @@ import React, { useState, useEffect }from 'react';
 import axios from 'axios'
 
 import PortfolioSidebarList from '../portfolio/portfolio-sidebar-list';
-// import PortfolioForm from '../portfolio/portfolio-form';
+import PortfolioForm from '../portfolio/portfolio-form';
 import CopyPortfolioForm from '../portfolio/form-follow-along';
 
 export default function PortfolioManager() {
@@ -82,13 +82,14 @@ export default function PortfolioManager() {
         <div>
             <div className="portfolio-manager-wrapper">
                 <div className="left-column">
-                        {/* <PortfolioForm  */}
-                        <CopyPortfolioForm
+                        <PortfolioForm />
+
+                        {/* <CopyPortfolioForm
                         handleSuccessfulFormSubmission={handleSuccessfulFormSubmission} 
                         handleFormSubmissionError={handleFormSubmissionError}
                         clearPortfolioToEdit={clearPortfolioToEdit}
                         portfolioToEdit={portfolioEdit}
-                        /> 
+                        />  */}
                 </div>
 
                 <div className="right-column">
