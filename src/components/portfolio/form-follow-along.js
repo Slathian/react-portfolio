@@ -98,6 +98,9 @@ export default class PortfolioForm extends Component {
   }
 
   buildForm() {
+
+    console.log(this.state.name, this.state.description)
+
     let formData = new FormData();
 
     formData.append("portfolio_item[name]", this.state.name);
