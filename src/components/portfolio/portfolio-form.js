@@ -9,9 +9,9 @@ export default function PortfolioForm (props) {
     const [position, setPosition] = useState({position: ""})
     const [category, setCatagory] = useState({category: "Blog"})
     const [description, setDescription] = useState({description: ""})
-    const [thumb_image, changeThumb] = useState({thumb_image_url: []})
-    const [banner_image, changeBanner] = useState({banner_image_url: []})
-    const [logo, changeLogo] = useState({logo_url: []})
+    const [thumb_image, changeThumb] = useState("")
+    const [banner_image, changeBanner] = useState("")
+    const [logo, changeLogo] = useState("")
 
     const thumbRef = React.useRef();
     const bannerRef = React.useRef();
@@ -26,15 +26,16 @@ export default function PortfolioForm (props) {
                 { withCredentials: true }
             )
             .then(response => {
-                props.handleSuccessfulFormSubmission(response.data.Portfolio_item);
+                console.log(response)
+                props.handleSuccessfulFormSubmission(response.data.portfolio_item);
 
                 setName({name: ""});
                 setUrl({url: ""});
                 setPosition({position: ""});
                 setDescription({description: ""});
-                changeThumb({thumb_image_url: []});
-                changeBanner({banner_image_url: []});
-                changeLogo({logo_url: []});
+                changeThumb("");
+                changeBanner("");
+                changeLogo("");
 
                 [thumbRef, bannerRef, logoRef].forEach(ref => {
                     ref.current.dropzone.removeAllFiles();
@@ -51,25 +52,27 @@ export default function PortfolioForm (props) {
 
 
         let formData = new FormData();
-        formData.append("portfolio_item[name]", name);
+        formData.append("portfolio_item[name]", "This is a string text");
         formData.append("portfolio_item[description]", description);
         formData.append("portfolio_item[url]", url);
         formData.append("portfolio_item[category]", category);
         formData.append("portfolio_item[position]", position);
     
-        if (thumb_image) {
-          formData.append("portfolio_item[thumb_image]", thumb_image);
-        }
+        // if (thumb_image) {
+        //   formData.append("portfolio_item[thumb_image]", thumb_image);
+        // }
     
-        if (banner_image) {
-          formData.append("portfolio_item[banner_image]", banner_image);
-        }
+        // if (banner_image) {
+        //   formData.append("portfolio_item[banner_image]", banner_image);
+        // }
     
-        if (logo) {
-          formData.append("portfolio_item[logo]", logo);
-        }
+        // if (logo) {
+        //   formData.append("portfolio_item[logo]", logo);
+        // }
         
-        console.log(formData);
+        // for (var value of formData.values()) {
+        //     console.log(value[name][0])
+        // }
         return formData;
     }
     
