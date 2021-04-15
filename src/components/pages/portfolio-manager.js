@@ -3,7 +3,6 @@ import axios from 'axios'
 
 import PortfolioSidebarList from '../portfolio/portfolio-sidebar-list';
 import PortfolioForm from '../portfolio/portfolio-form';
-import CopyPortfolioForm from '../portfolio/form-follow-along';
 
 export default function PortfolioManager() {
 
@@ -45,7 +44,6 @@ export default function PortfolioManager() {
         setPortfolio({
             portfolioItems: [portfolio].concat(portfolioData)
         })
-        console.log("After the trigger" ,portfolio)
     }
 
     const handleFormSubmissionError = (error) => {

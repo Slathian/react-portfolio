@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import DropzoneComponent from "react-dropzone-component";
 
+import "../../../node_modules/react-dropzone-component/styles/filepicker.css";
+import "../../../node_modules/dropzone/dist/min/dropzone.min.css";
+
 export default function PortfolioForm (props) {
 
-    const [name, setName] = useState({name: ""})
-    const [url, setUrl] = useState({url: ""})
-    const [position, setPosition] = useState({position: ""})
-    const [category, setCatagory] = useState({category: "Blog"})
-    const [description, setDescription] = useState({description: ""})
+    const [name, setName] = useState("")
+    const [url, setUrl] = useState("")
+    const [position, setPosition] = useState("")
+    const [category, setCatagory] = useState("")
+    const [description, setDescription] = useState("")
     const [thumb_image, changeThumb] = useState("")
     const [banner_image, changeBanner] = useState("")
     const [logo, changeLogo] = useState("")
@@ -29,10 +32,10 @@ export default function PortfolioForm (props) {
                 console.log(response)
                 props.handleSuccessfulFormSubmission(response.data.portfolio_item);
 
-                setName({name: ""});
-                setUrl({url: ""});
-                setPosition({position: ""});
-                setDescription({description: ""});
+                setName("");
+                setUrl("");
+                setPosition("");
+                setDescription("");
                 changeThumb("");
                 changeBanner("");
                 changeLogo("");
@@ -52,27 +55,24 @@ export default function PortfolioForm (props) {
 
 
         let formData = new FormData();
-        formData.append("portfolio_item[name]", "This is a string text");
+        formData.append("portfolio_item[name]", name);
         formData.append("portfolio_item[description]", description);
         formData.append("portfolio_item[url]", url);
         formData.append("portfolio_item[category]", category);
         formData.append("portfolio_item[position]", position);
     
-        // if (thumb_image) {
-        //   formData.append("portfolio_item[thumb_image]", thumb_image);
-        // }
+        if (thumb_image) {
+          formData.append("portfolio_item[thumb_image]", thumb_image);
+        }
     
-        // if (banner_image) {
-        //   formData.append("portfolio_item[banner_image]", banner_image);
-        // }
+        if (banner_image) {
+          formData.append("portfolio_item[banner_image]", banner_image);
+        }
     
-        // if (logo) {
-        //   formData.append("portfolio_item[logo]", logo);
-        // }
+        if (logo) {
+          formData.append("portfolio_item[logo]", logo);
+        }
         
-        // for (var value of formData.values()) {
-        //     console.log(value[name][0])
-        // }
         return formData;
     }
     
@@ -95,20 +95,23 @@ export default function PortfolioForm (props) {
     }
 
     const handleThumbDrop = () => {
+        // console.log(thumb_image)
         return {
-            addedfile: file => changeThumb({ thumb_image_url: file })
+            addedfile: file => changeThumb(file)
         };
     }
     
     const handleBannerDrop = () => {
+        // console.log(banner_image)
         return {
-            addedfile: file => changeBanner({ banner_image_url: file })
+            addedfile: file => changeBanner(file)
         };
     }
     
     const handleLogoDrop = () => {
+        // console.log(logo)
         return {
-            addedfile: file => changeLogo({ logo_url: file })
+            addedfile: file => changeLogo(file)
         };
     }
     
@@ -119,8 +122,8 @@ export default function PortfolioForm (props) {
                     <input 
                         type="text"
                         placeholder="Portfolio Item Name"
-                        value={name.name}
-                        onChange={e => setName({name: e.target.value})}
+                        value={name}
+                        onChange={e => setName(e.target.value)}
                     />
                 </label>
 
@@ -128,8 +131,8 @@ export default function PortfolioForm (props) {
                     <input 
                         type="text"
                         placeholder="URL"
-                        value={url.url}
-                        onChange={e => setUrl({url: e.target.value})}
+                        value={url}
+                        onChange={e => setUrl(e.target.value)}
                     />
                 </label>
             </div>
@@ -139,13 +142,13 @@ export default function PortfolioForm (props) {
                     <input 
                         type="text"
                         placeholder="Position"
-                        value={position.position}
-                        onChange={e => setPosition({position: e.target.value})}
+                        value={position}
+                        onChange={e => setPosition(e.target.value)}
                     />
                 </label>
 
                 <select
-                    onChange={e => setCatagory({category: e.target.value})}
+                    onChange={e => setCatagory(e.target.value)}
                 >
                     <option value="Blog"> Blogs</option>
                     <option value="Enterprise"> Enterprise</option>
@@ -158,8 +161,8 @@ export default function PortfolioForm (props) {
                     <textarea
                         type="text"
                         placeholder="Description"
-                        value={description.description}
-                        onChange={e => setDescription({description: e.target.value})}
+                        value={description}
+                        onChange={e => setDescription(e.target.value)}
                     />
                 </div>
             </label>
