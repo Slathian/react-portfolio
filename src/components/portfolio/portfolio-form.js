@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DropzoneComponent from "react-dropzone-component";
 
@@ -7,46 +7,85 @@ import "../../../node_modules/dropzone/dist/min/dropzone.min.css";
 
 export default function PortfolioForm (props) {
 
-    const [name, setName] = useState("")
-    const [url, setUrl] = useState("")
-    const [position, setPosition] = useState("")
-    const [category, setCatagory] = useState("")
-    const [description, setDescription] = useState("")
-    const [thumb_image, changeThumb] = useState("")
-    const [banner_image, changeBanner] = useState("")
-    const [logo, changeLogo] = useState("")
+    const [name, setName] = useState("");
+    const [url, setUrl] = useState("");
+    const [position, setPosition] = useState("");
+    const [category, setCategory] = useState("");
+    const [description, setDescription] = useState("");
+    const [thumb_image, changeThumb] = useState("");
+    const [banner_image, changeBanner] = useState("");
+    const [logo, changeLogo] = useState("");
+    const [editMode, changeEditMode] = useState(false);
+    const [apiUrl, editApiUrl] = useState("https://joshuaangelo.devcamp.space/portfolio/portfolio_items")
+    const [apiAction, changeApiAction] = useState("post");
 
     const thumbRef = React.useRef();
     const bannerRef = React.useRef();
     const logoRef = React.useRef();
 
+    useEffect(() => {
+        if (props.trigger) {
+            console.log("TRIGGER ACTIVATED IN FORM");
+            let {
+                id,
+                name,
+                description,
+                category,
+                position,
+                url,
+                thumb_image_url,
+                banner_image_url,
+                logo_url
+            } = props.portfolioEditItem.portfolioToEdit;
+
+            // console.log(
+            // "ID: ", id,
+            // " Name: ", name,
+            // " Description: ", description,
+            // " Category: ", category,
+            // " Position: ", position,
+            // " URL: ", url
+            // )
+
+            setName(name || "");
+            setUrl(url || "");
+            setPosition(position || "");
+            setCategory(category || "");
+            setDescription(description || "");
+            changeEditMode(true);
+            editApiUrl(`https://joshuaangelo.devcamp.space/portfolio/portfolio_items/${id}`);
+            changeApiAction("patch");
+        }
+    });
+
     const handleSubmit = event => {
         event.preventDefault();
-        axios
-            .post(
-                "https://joshuaangelo.devcamp.space/portfolio/portfolio_items",
-                buildForm(),
-                { withCredentials: true }
-            )
-            .then(response => {
-                console.log(response)
-                props.handleSuccessfulFormSubmission(response.data.portfolio_item);
+        
+        axios({
+            method: apiAction,
+            url: apiUrl,
+            data: buildForm(),
+            withCredentials: true
+        })
+        .then(response => {
+            console.log(response)
+            props.handleSuccessfulFormSubmission(response.data.portfolio_item);
 
-                setName("");
-                setUrl("");
-                setPosition("");
-                setDescription("");
-                changeThumb("");
-                changeBanner("");
-                changeLogo("");
+            setName("");
+            setUrl("");
+            setPosition("");
+            setDescription("");
+            changeThumb("");
+            changeBanner("");
+            changeLogo("");
 
-                [thumbRef, bannerRef, logoRef].forEach(ref => {
-                    ref.current.dropzone.removeAllFiles();
-                });
-            })
-            .catch(error => {
-                console.log("Portfolio form handleSubmit error:", error);
+            [thumbRef, bannerRef, logoRef].forEach(ref => {
+                ref.current.dropzone.removeAllFiles();
             });
+        })
+        .catch(error => {
+            console.log("Portfolio form handleSubmit error:", error);
+        });
     }
 
     const buildForm = () => {
@@ -76,9 +115,6 @@ export default function PortfolioForm (props) {
         return formData;
     }
     
-
-
-
     const componentConfig = () => {
         return {
           iconFiletypes: [".jpg", ".png"],
@@ -148,7 +184,8 @@ export default function PortfolioForm (props) {
                 </label>
 
                 <select
-                    onChange={e => setCatagory(e.target.value)}
+                    onChange={e => setCategory(e.target.value)}
+                    value={category}
                 >
                     <option value="Blog"> Blogs</option>
                     <option value="Enterprise"> Enterprise</option>
@@ -198,7 +235,7 @@ export default function PortfolioForm (props) {
                     </div>
                 </label>
                 <div>
-                    <button type="submit" value="Submit">Save</button> 
+                <button className="btn" type="submit">Save</button>
                 </div>
 
         </form>

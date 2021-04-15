@@ -1,4 +1,4 @@
-import React, { useState, useEffect }from 'react';
+import React, { useState, useEffect, useRef }from 'react';
 import axios from 'axios'
 
 import PortfolioSidebarList from '../portfolio/portfolio-sidebar-list';
@@ -10,6 +10,7 @@ export default function PortfolioManager() {
     const [loaded, changeLoad] = useState(false);
     const [portfolioEdit, setPortfolioEdit] = useState({portfolioToEdit: {}})
     const [triggerSwitch, changeTriggerSwitch] = useState(false)
+    const initialMount = useRef(true);
 
     useEffect( () =>{
         async function fetchData() {
@@ -18,20 +19,26 @@ export default function PortfolioManager() {
             .then(response => {
                 setPortfolio({portfolioItems: [...response.data.portfolio_items]})
                 changeLoad(true);
+                console.log("Data has been fetched");
             })
             .catch(error => {
                 console.log("axios data collection error: ", error);
             });
         };
 
+        // if (initialMount === true) {
+        //     fetchData()
+        //     if (loaded === true) {
+        //         initialMount.current = false;
+        //     }
+        // }
 
         // Call sequence
-        
         fetchData()
 
         if (triggerSwitch === true) {
             console.log("TRIGGER STATEMENT ACTIVE");
-
+            console.log("after the statement call", portfolioEdit)
 
 
             //reset trigger so it works only once in the useEffect calls
@@ -65,9 +72,7 @@ export default function PortfolioManager() {
         setPortfolioEdit({
             portfolioToEdit: portfolioItem
         })
-
         changeTriggerSwitch(true);
-        console.log(portfolioEdit);
     };
     
     const clearPortfolioToEdit = () => {
@@ -84,7 +89,8 @@ export default function PortfolioManager() {
                         handleSuccessfulFormSubmission={handleSuccessfulFormSubmission} 
                         handleFormSubmissionError={handleFormSubmissionError}
                         clearPortfolioToEdit={clearPortfolioToEdit}
-                        portfolioToEdit={portfolioEdit}
+                        portfolioEditItem={portfolioEdit}
+                        trigger={triggerSwitch}
                         />
 
                         {/* <CopyPortfolioForm
