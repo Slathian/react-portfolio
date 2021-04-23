@@ -6,10 +6,13 @@ import PortfolioForm from '../portfolio/portfolio-form';
 
 export default function PortfolioManager() {
 
-    const [portfolio, setPortfolio] = useState([]);
-    const [loaded, changeLoad] = useState(false);
+    // const [portfolio, setPortfolio] = useState([]);
+    const portfolio = useRef([]);
+    // const [loaded, changeLoad] = useState(false);
+    const loaded = useRef(false);
     const [portfolioEdit, setPortfolioEdit] = useState({portfolioToEdit: {}})
-    const [triggerSwitch, changeTriggerSwitch] = useState(false)
+    // const [triggerSwitch, changeTriggerSwitch] = useState(false)
+    const triggerSwitch = useRef(false);
     const initialMount = useRef(true);
 
     useEffect( () =>{
@@ -17,39 +20,30 @@ export default function PortfolioManager() {
             await axios
             .get("https://joshuaangelo.devcamp.space/portfolio/portfolio_items", {withCredentials: true})
             .then(response => {
-                setPortfolio({portfolioItems: [...response.data.portfolio_items]})
-                changeLoad(true);
-                console.log("Data has been fetched");
+                // setPortfolio({portfolioItems: [...response.data.portfolio_items]})
+                portfolio.current = {portfolioItems: [...response.data.portfolio_items]};
+                loaded.current = true;
+                console.log("Data has been fetched", portfolio.current, " | ", loaded.current);
             })
             .catch(error => {
                 console.log("axios data collection error: ", error);
             });
         };
 
-        // if (initialMount === true) {
-        //     fetchData()
-        //     if (loaded === true) {
-        //         initialMount.current = false;
-        //     }
-        // }
-
-        // Call sequence
         fetchData()
+        
 
-        if (triggerSwitch === true) {
+        if (triggerSwitch.current === true) {
             console.log("TRIGGER STATEMENT ACTIVE");
             console.log("after the statement call", portfolioEdit)
-
-
-            //reset trigger so it works only once in the useEffect calls
-            changeTriggerSwitch(false);
+            triggerSwitch.current = false;
         }
     });
 
     const handleSuccessfulFormSubmission = (portfolioData) => {
-        changeLoad(false);
+        triggerSwitch.current = false;
         setPortfolio({
-            portfolioItems: [portfolio].concat(portfolioData)
+            portfolioItems: [portfolio.current].concat(portfolioData)
         })
     }
 
@@ -72,7 +66,7 @@ export default function PortfolioManager() {
         setPortfolioEdit({
             portfolioToEdit: portfolioItem
         })
-        changeTriggerSwitch(true);
+        triggerSwitch.current = true;
     };
     
     const clearPortfolioToEdit = () => {
@@ -103,8 +97,8 @@ export default function PortfolioManager() {
 
                 <div className="right-column">
                     <PortfolioSidebarList 
-                    apiData={portfolio} 
-                    isLoaded={loaded} 
+                    apiData={portfolio}
+                    loaded={loaded}
                     handleDeleteClick={handleDeleteClick}
                     handleEditClick={handleEditClick}
                     key={"side-bar-list"}/>

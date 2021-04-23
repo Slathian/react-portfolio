@@ -1,18 +1,25 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import React, { useState, useEffect, useRef }from 'react';
 
 
-const PortfolioSidebarList = props => {
+export default function PortfolioSidebarList (props) {
 
-    if (props.isLoaded === true ) {
-        // console.log(props.apiData.portfolioItems)
-        const PortfolioList = props.apiData.portfolioItems.map((item) => {
+    const useLoad = useRef(props.loaded.current);
+
+    useEffect(()=> {
+        if (props.loaded.current === true) {
+            console.log("called after data fetch")
+        }
+    })
+    
+    if (props.isLoaded === true) {
+        console.log(props.apiData.current.portfolioItems)
+        const PortfolioList = props.apiData.current.portfolioItems.map((item) => {
             return (
                 <div key={item.id} className="portfolio-item">
                     <img src={item.thumb_image_url}/>
                     <div className="title-card">
                         <h1>{item.name}</h1>
-
                         <div className="actions">
                             <a className="edit-icon" onClick={() => props.handleEditClick(item)}>
                                 <FontAwesomeIcon icon="edit" />
@@ -27,6 +34,7 @@ const PortfolioSidebarList = props => {
                 </div>
                 )
         });
+
         return (
             <div className="portfolio-items-wrapper">
                 {PortfolioList}
@@ -40,5 +48,3 @@ const PortfolioSidebarList = props => {
         </div>
     )
 }
-
-export default PortfolioSidebarList

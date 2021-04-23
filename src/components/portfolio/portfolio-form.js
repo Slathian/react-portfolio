@@ -24,8 +24,8 @@ export default function PortfolioForm (props) {
     const logoRef = React.useRef();
 
     useEffect(() => {
-        if (props.trigger) {
-            console.log("TRIGGER ACTIVATED IN FORM");
+        if (props.trigger.current === true) {
+            console.log("TRIGGER ACTIVATED IN FORM", props.trigger);
             let {
                 id,
                 name,
